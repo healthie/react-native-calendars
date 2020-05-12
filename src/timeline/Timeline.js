@@ -39,7 +39,8 @@ export default class Timeline extends React.PureComponent {
       title: PropTypes.string.isRequired,
       summary: PropTypes.string.isRequired,
       color: PropTypes.string
-    })).isRequired
+    })).isRequired,
+    renderItem: PropTypes.func
   }
 
   static defaultProps = {
@@ -140,6 +141,10 @@ export default class Timeline extends React.PureComponent {
   _renderEvents() {
     const {packedEvents} = this.state;
     let events = packedEvents.map((event, i) => {
+      if(this.props.renderItem){
+        return this.props.renderItem(event, i);
+      }
+
       const style = {
         left: event.left,
         height: event.height,
