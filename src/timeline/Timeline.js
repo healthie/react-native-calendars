@@ -4,7 +4,9 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  ViewPropTypes,
+  TextPropTypes
 } from 'react-native';
 import PropTypes from 'prop-types';
 import populateEvents from './Packer';
@@ -20,6 +22,8 @@ const LEFT_MARGIN = 60 - 1;
 const TEXT_LINE_HEIGHT = 17;
 // const MIN_EVENT_TITLE_WIDTH = 20
 // const EVENT_PADDING_LEFT = 4
+const viewPropTypes = ViewPropTypes || View.propTypes;
+const textPropTypes = TextPropTypes || Text.propTypes;
 
 function range(from, to) {
   return Array.from(Array(to), (_, i) => from + i);
@@ -40,7 +44,10 @@ export default class Timeline extends React.PureComponent {
       summary: PropTypes.string.isRequired,
       color: PropTypes.string
     })).isRequired,
-    renderItem: PropTypes.func
+    containerStyles: viewPropTypes.style,
+    eventStyles: viewPropTypes.style,
+    lineStyles: viewPropTypes.style,
+    textStyles: textPropTypes.style
   }
 
   static defaultProps = {
@@ -111,7 +118,7 @@ export default class Timeline extends React.PureComponent {
       return [
         <Text
           key={`timeLabel${i}`}
-          style={[this.styles.timeLabel, {top: offset * index - 6}]}>
+          style={[this.styles.timeLabel, {top: offset * index - 6}, this.props.textStyles]}>
           {timeText}
         </Text>,
         i === start ? null : (
@@ -119,7 +126,8 @@ export default class Timeline extends React.PureComponent {
             key={`line${i}`}
             style={[
               this.styles.line,
-              {top: offset * index, width: dimensionWidth - EVENT_DIFF}
+              {top: offset * index, width: dimensionWidth - EVENT_DIFF},
+              this.props.lineStyles
             ]}
           />
         ),
@@ -127,7 +135,8 @@ export default class Timeline extends React.PureComponent {
           key={`lineHalf${i}`}
           style={[
             this.styles.line,
-            {top: offset * (index + 0.5), width: dimensionWidth - EVENT_DIFF}
+            {top: offset * (index + 0.5), width: dimensionWidth - EVENT_DIFF},
+            this.props.lineStyles
           ]}
         />
       ];
@@ -141,10 +150,6 @@ export default class Timeline extends React.PureComponent {
   _renderEvents() {
     const {packedEvents} = this.state;
     let events = packedEvents.map((event, i) => {
-      if(this.props.renderItem){
-        return this.props.renderItem(event, i);
-      }
-
       const style = {
         left: event.left,
         height: event.height,
@@ -162,7 +167,7 @@ export default class Timeline extends React.PureComponent {
           activeOpacity={0.9}
           onPress={() => this._onEventTapped(this.props.events[event.index])}
           key={i}
-          style={[this.styles.event, style]}>
+          style={[this.styles.event, style, this.props.eventStyles]}>
           {this.props.renderEvent ? (
             this.props.renderEvent(event)
           ) : (
@@ -202,7 +207,8 @@ export default class Timeline extends React.PureComponent {
         ref={ref => (this._scrollView = ref)}
         contentContainerStyle={[
           this.styles.contentStyle,
-          {width: dimensionWidth}
+          {width: dimensionWidth},
+          this.props.containerStyles
         ]}>
         {this._renderLines()}
         {this._renderEvents()}
