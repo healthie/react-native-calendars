@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   Dimensions,
   ViewPropTypes,
-  TextPropTypes
+  TextPropTypes,
+  Image
 } from 'react-native';
 import PropTypes from 'prop-types';
 import populateEvents from './Packer';
@@ -168,6 +169,17 @@ export default class Timeline extends React.PureComponent {
           onPress={() => this._onEventTapped(this.props.events[event.index])}
           key={i}
           style={[this.styles.event, style, this.props.eventStyles]}>
+          {event.image ? (
+              <Image
+                  source={event.image}
+                  resizeMode='repeat'
+                  style={{
+                    height: event.height,
+                    position: 'absolute',
+                    width: event.width
+                  }}
+              />
+          ) : null}
           {this.props.renderEvent ? (
             this.props.renderEvent(event)
           ) : (
