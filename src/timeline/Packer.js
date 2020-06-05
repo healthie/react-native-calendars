@@ -103,6 +103,17 @@ function populateEvents(events, screenWidth, dayStart) {
   if (columns.length > 0) {
     pack(columns, screenWidth, calculatedEvents, dayStart);
   }
+  
+  calculatedEvents.forEach((event, index) => {
+    for(var i = index+1; i < calculatedEvents.length; i++){
+      if(collision(event, calculatedEvents[i])){
+        calculatedEvents[index].concurrent = true
+        calculatedEvents[i].concurrent = true;
+        return;
+      }
+    }
+  })
+  
   return calculatedEvents;
 }
 
