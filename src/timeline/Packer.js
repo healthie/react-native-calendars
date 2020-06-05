@@ -107,8 +107,8 @@ function populateEvents(events, screenWidth, dayStart) {
   calculatedEvents.forEach((event, index) => {
     for(var i = index+1; i < calculatedEvents.length; i++){
       if(collision(event, calculatedEvents[i])){
-        calculatedEvents[index].concurrent = true
-        calculatedEvents[i].concurrent = true;
+        calculatedEvents[index].isConcurrent = true
+        calculatedEvents[i].isConcurrent = true;
         return;
       }
     }
