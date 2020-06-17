@@ -10,7 +10,7 @@ import styleConstructor from './style';
 
 class ReservationList extends Component {
   static displayName = 'IGNORE';
-  
+
   static propTypes = {
     // specify your item comparison function for increased performance
     rowHasChanged: PropTypes.func,
@@ -41,13 +41,13 @@ class ReservationList extends Component {
 
   constructor(props) {
     super(props);
-    
+
     this.styles = styleConstructor(props.theme);
-    
+
     this.state = {
       reservations: []
     };
-    
+
     this.heights=[];
     this.selectedDay = this.props.selectedDay;
     this.scrollOver = true;
@@ -194,11 +194,16 @@ class ReservationList extends Component {
         <ActivityIndicator style={{marginTop: 80}} color={this.props.theme && this.props.theme.indicatorColor}/>
       );
     }
+
+    if(this.state.reservations.length === 1){
+      return this.renderRow.bind(this)({item: this.state.reservations[0], index: 0});
+    }
+
     return (
       <FlatList
         ref={(c) => this.list = c}
         style={this.props.style}
-        contentContainerStyle={this.styles.content}
+        contentContainerStyle={[this.styles.content]}
         renderItem={this.renderRow.bind(this)}
         data={this.state.reservations}
         onScroll={this.onScroll.bind(this)}
