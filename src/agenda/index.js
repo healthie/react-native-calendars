@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, Dimensions, Animated, ViewPropTypes} from 'react-native';
+import {Text, View, Dimensions, Animated, ViewPropTypes, TouchableWithoutFeedback} from 'react-native';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
 
@@ -418,9 +418,15 @@ export default class AgendaView extends Component {
     if (!this.props.hideKnob) {
       const knobView = this.props.renderKnob ? this.props.renderKnob() : (<View style={this.styles.knob}/>);
       knob = this.state.calendarScrollable ? null : (
-        <View style={this.styles.knobContainer}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            this.setScrollPadPosition(0, true);
+            this.enableCalendarScrolling();
+          }}>
+        <View style={[this.styles.knobContainer]}>
           <View ref={(c) => this.knob = c}>{knobView}</View>
         </View>
+        </TouchableWithoutFeedback>
       );
     }
     const shouldHideExtraDays = this.state.calendarScrollable ? this.props.hideExtraDays : false;
