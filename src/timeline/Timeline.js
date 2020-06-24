@@ -48,7 +48,8 @@ export default class Timeline extends React.PureComponent {
     containerStyles: viewPropTypes.style,
     eventStyles: viewPropTypes.style,
     lineStyles: viewPropTypes.style,
-    textStyles: textPropTypes.style
+    textStyles: textPropTypes.style,
+    scrollTo: PropTypes.number
   }
 
   static defaultProps = {
@@ -86,14 +87,22 @@ export default class Timeline extends React.PureComponent {
   }
 
   scrollToFirst() {
+    const number = this.props.scrollTo ? this.props.scrollTo * 100 : 700;
     setTimeout(() => {
-      if (this.state && this.state._scrollY && this._scrollView) {
+      if (number && this._scrollView) {
         this._scrollView.scrollTo({
           x: 0,
-          y: this.state._scrollY,
+          y: number,
           animated: true
         });
       }
+      // if (this.state && this.state._scrollY && this._scrollView) {
+      //   this._scrollView.scrollTo({
+      //     x: 0,
+      //     y: this.state._scrollY,
+      //     animated: true
+      //   });
+      // }
     }, 1);
   }
 
