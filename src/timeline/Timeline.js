@@ -87,7 +87,10 @@ export default class Timeline extends React.PureComponent {
   }
 
   scrollToFirst() {
-    const number = this.props.scrollTo ? this.props.scrollTo * 100 : 700;
+    let number = this.props.scrollTo ?? 0;
+    if(this.state && !isNaN(this.state._scrollY)){
+      number = this.state._scrollY;
+    }
     setTimeout(() => {
       if (number && this._scrollView) {
         this._scrollView.scrollTo({
