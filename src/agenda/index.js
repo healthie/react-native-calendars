@@ -423,7 +423,7 @@ export default class AgendaView extends Component {
             this.setScrollPadPosition(0, true);
             this.enableCalendarScrolling();
           }}>
-        <View style={[this.styles.knobContainer]}>
+        <View style={[this.styles.knobContainer, { backgroundColor: 'rgba(255,255,255, 0.8)' }]}>
           <View ref={(c) => this.knob = c}>{knobView}</View>
         </View>
         </TouchableWithoutFeedback>
