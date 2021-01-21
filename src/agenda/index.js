@@ -407,10 +407,9 @@ export default class AgendaView extends Component {
 
     const scrollPadStyle = {
       position: 'absolute',
-      width: 200,
+      width: '100%',
       height: KNOB_HEIGHT,
-      top: scrollPadPosition,
-      left: (this.viewWidth - 200) / 2
+      top: scrollPadPosition
     };
 
     let knob = (<View style={this.styles.knobContainer}/>);
