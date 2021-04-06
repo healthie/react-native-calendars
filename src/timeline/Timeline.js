@@ -148,7 +148,7 @@ export default class Timeline extends React.PureComponent {
             <TouchableOpacity
               disabled={!this.props.timesPressable}
               hitSlop={{top: 22, bottom: 22}}
-              onLongPress={() => this.props.onTimePress && this.props.onTimePress(timeText, 'upper')}
+              onLongPress={() => this.props.onTimePress && this.props.onTimePress(i, 'upper')}
               />
           </View>
         ),
@@ -163,7 +163,7 @@ export default class Timeline extends React.PureComponent {
             <TouchableOpacity
               disabled={!this.props.timesPressable}
               hitSlop={{top: 22, bottom: 22}}
-              onLongPress={() => this.props.onTimePress && this.props.onTimePress(timeText, 'middle')}
+              onLongPress={() => this.props.onTimePress && this.props.onTimePress(i, 'middle')}
               />
           </View>
       ];
