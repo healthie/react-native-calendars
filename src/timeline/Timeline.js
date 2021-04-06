@@ -49,7 +49,9 @@ export default class Timeline extends React.PureComponent {
     eventStyles: viewPropTypes.style,
     lineStyles: viewPropTypes.style,
     textStyles: textPropTypes.style,
-    scrollTo: PropTypes.number
+    scrollTo: PropTypes.number,
+    onTimePress: PropTypes.func,
+    timesPressable: PropTypes.boolean
   }
 
   static defaultProps = {
@@ -136,22 +138,34 @@ export default class Timeline extends React.PureComponent {
         </Text>,
         i === start ? null : (
           <View
-            key={`line${i}`}
+              key={`line${i}`}
+              style={[
+                this.styles.line,
+                {top: offset * index, width: dimensionWidth - EVENT_DIFF},
+                this.props.lineStyles
+              ]}
+            >
+            <TouchableOpacity
+              disabled={!this.props.timesPressable}
+              hitSlop={{top: 22, bottom: 22}}
+              onLongPress={() => this.props.onTimePress && this.props.onTimePress(timeText, 'upper')}
+              />
+          </View>
+        ),
+          <View
+            key={`lineHalf${i}`}
             style={[
               this.styles.line,
-              {top: offset * index, width: dimensionWidth - EVENT_DIFF},
+              {top: offset * (index + 0.5), width: dimensionWidth - EVENT_DIFF},
               this.props.lineStyles
             ]}
-          />
-        ),
-        <View
-          key={`lineHalf${i}`}
-          style={[
-            this.styles.line,
-            {top: offset * (index + 0.5), width: dimensionWidth - EVENT_DIFF},
-            this.props.lineStyles
-          ]}
-        />
+          >
+            <TouchableOpacity
+              disabled={!this.props.timesPressable}
+              hitSlop={{top: 22, bottom: 22}}
+              onLongPress={() => this.props.onTimePress && this.props.onTimePress(timeText, 'middle')}
+              />
+          </View>
       ];
     });
   }
@@ -228,6 +242,7 @@ export default class Timeline extends React.PureComponent {
   render() {
     return (
       <ScrollView
+
         ref={ref => (this._scrollView = ref)}
         contentContainerStyle={[
           this.styles.contentStyle,
