@@ -137,35 +137,29 @@ export default class Timeline extends React.PureComponent {
           {timeText}
         </Text>,
         i === start ? null : (
-          <View
-              key={`line${i}`}
-              style={[
-                this.styles.line,
-                {top: offset * index, width: dimensionWidth - EVENT_DIFF},
-                this.props.lineStyles
-              ]}
-            >
-            <TouchableOpacity
-              disabled={!this.props.timesPressable}
-              hitSlop={{top: 22, bottom: 22}}
-              onLongPress={() => this.props.onTimePress && this.props.onTimePress(i, 'upper')}
-              />
-          </View>
+          <TouchableOpacity
+            key={`line${i}`}
+            style={[
+              this.styles.line,
+              {top: offset * index, width: dimensionWidth - EVENT_DIFF, },
+              this.props.lineStyles,
+            ]}
+            disabled={!this.props.timesPressable}
+            hitSlop={{top: 22, bottom: 22, left: 0, right: 0}}
+            onLongPress={() => this.props.onTimePress && this.props.onTimePress(i, 'upper')}
+          />
         ),
-          <View
+          <TouchableOpacity
             key={`lineHalf${i}`}
             style={[
               this.styles.line,
               {top: offset * (index + 0.5), width: dimensionWidth - EVENT_DIFF},
-              this.props.lineStyles
+              this.props.lineStyles,
             ]}
-          >
-            <TouchableOpacity
-              disabled={!this.props.timesPressable}
-              hitSlop={{top: 22, bottom: 22}}
-              onLongPress={() => this.props.onTimePress && this.props.onTimePress(i, 'middle')}
-              />
-          </View>
+            disabled={!this.props.timesPressable}
+            hitSlop={{top: 22, bottom: 22, left: 0, right: 0}}
+            onLongPress={() => this.props.onTimePress && this.props.onTimePress(i, 'middle')}
+          />
       ];
     });
   }
